@@ -919,6 +919,11 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@coreui/coreui@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@coreui/coreui/-/coreui-3.3.0.tgz#09e6176025cf2c430130218f915a2e448d21c5c6"
+  integrity sha512-eaLk+u64v1LzgrROrma26fBJK4wU6sW+Nj0DAJNj+7EsSFA2ge5dW2Fmo5knxBipnYZTUnhG/pDA2w1o/BLaaA==
+
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
