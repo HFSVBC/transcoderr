@@ -8,6 +8,7 @@ function App() {
   return (
     <div className="border-bottom mb-4">
       <div className="container-fluid p-0">
+        Welcome!
         <SidebarContainer/>
       </div>
     </div>
