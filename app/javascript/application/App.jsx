@@ -6,10 +6,11 @@ import SidebarContainer from './containers/SidebarContainer';
 
 function App() {
   return (
-    <div className="border-bottom mb-4">
-      <div className="container-fluid p-0">
-        Welcome!
-        <SidebarContainer/>
+    <div className="c-app c-default-layout">
+      <SidebarContainer/>
+      <div className="c-wrapper">
+        <div className="c-body">
+        </div>
       </div>
     </div>
   );
