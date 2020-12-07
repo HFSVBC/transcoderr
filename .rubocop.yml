@@ -1,0 +1,5 @@
+inherit_from: .rubocop-base.yml
+
+Layout/LineLength:
+  Description: "Limit lines to 100 characters."
+  Max: 100
