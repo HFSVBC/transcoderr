@@ -1,14 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
-//import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import "@coreui/coreui/scss/coreui";
-//import './styles.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
   render((
-    //<BrowserRouter>
+    <BrowserRouter>
       <App />
-    //</BrowserRouter>
+    </BrowserRouter>
   ), document.querySelector('#app'));
 });
