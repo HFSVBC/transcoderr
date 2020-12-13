@@ -60,6 +60,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.1)
     bindex (0.8.1)
+    blueprinter (0.25.2)
     bootsnap (1.4.9)
       msgpack (~> 1.0)
     builder (3.2.4)
@@ -108,6 +109,7 @@ GEM
     nio4r (2.5.4)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
+    pagy (3.10.0)
     parallel (1.20.1)
     parser (2.7.2.0)
       ast (~> 2.4.1)
@@ -241,12 +243,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  blueprinter (~> 0.25.0)
   bootsnap (>= 1.4.2)
   byebug
   capybara (>= 2.15)
   dotenv-rails
   jbuilder (~> 2.7)
   listen (~> 3.2)
+  pagy (~> 3.7)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.4)
   rspec-rails (~> 4.0.1)
