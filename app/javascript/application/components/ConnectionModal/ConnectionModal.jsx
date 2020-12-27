@@ -20,6 +20,7 @@ function ConnectionModal({
   connection,
   handleActiveConnectionChange,
   isOpen,
+  onDeleteClick,
   onSubmitClick,
   toggle
 }) {
@@ -113,7 +114,7 @@ function ConnectionModal({
           </CModalBody>
 
           <CModalFooter>
-            <CButton color="danger" className="mr-auto">Delete</CButton>
+            <CButton color="danger" className="mr-auto" onClick={onDeleteClick}>Delete</CButton>
             <CButton color="secondary">Test</CButton>
             <CButton color="secondary" onClick={toggle}>Cancel</CButton>
             <CButton color="primary" type="submit">Save</CButton>

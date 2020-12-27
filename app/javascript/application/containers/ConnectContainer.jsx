@@ -25,6 +25,7 @@ class ConnectContainer extends Component {
     this.handleConnectionModalToggle = this.handleConnectionModalToggle.bind(this);
     this.handleActiveConnectionChange = this.handleActiveConnectionChange.bind(this);
     this.handleUpdateConnectionClick = this.handleUpdateConnectionClick.bind(this);
+    this.handleDeleteConnectionClick = this.handleDeleteConnectionClick.bind(this);
   };
 
   componentDidMount(){
@@ -34,7 +35,7 @@ class ConnectContainer extends Component {
   }
 
   handleConnectionClick(connection) {
-    Client.getConnection(connection.id)
+    Client.getConnection(connection)
       .then(response => response.data.data)
       .then(c => this.setState({ activeConnection: c, isConnectionModalOpen: true }));
   }
@@ -54,6 +55,20 @@ class ConnectContainer extends Component {
   handleUpdateConnectionClick() {
     Client.updateConnection(this.state.activeConnection)
       .then(response => console.log(response))
+  }
+
+  handleDeleteConnectionClick() {
+    Client.deleteConnection(this.state.activeConnection)
+      .then(response => response.status)
+      .then(status => {
+        if(status === 200) {
+          this.setState({activeConnection: null, isConnectionModalOpen: false})
+          this.componentDidMount();
+          console.log("DeleteConnection", "successful")
+        } else {
+          console.log("DeleteConnection", "error")
+        }
+      })
   }
 
   connections() {
@@ -92,6 +107,7 @@ class ConnectContainer extends Component {
             toggle={this.handleConnectionModalToggle}
             handleActiveConnectionChange={this.handleActiveConnectionChange}
             onSubmitClick={this.handleUpdateConnectionClick}
+            onDeleteClick={this.handleDeleteConnectionClick}
           />
         }
       </main>

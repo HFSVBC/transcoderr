@@ -12,7 +12,7 @@ function createConnection(connection) {
 }
 
 function deleteConnection(connection) {
-  const URL = `/api/v1/settings/connections/${connection}`;
+  const URL = `/api/v1/settings/connections/${connection.id}`;
 
   return axios.delete(URL);
 }
@@ -24,7 +24,7 @@ function getConnections() {
 }
 
 function getConnection(connection) {
-  const URL = `/api/v1/settings/connections/${connection}`;
+  const URL = `/api/v1/settings/connections/${connection.id}`;
 
   return axios.get(URL);
 }
