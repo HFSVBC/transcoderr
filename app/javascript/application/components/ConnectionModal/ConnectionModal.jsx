@@ -8,6 +8,7 @@ import {
   CFormGroup,
   CInput,
   CInputCheckbox,
+  CSelect,
   CCol,
   CLabel,
   CModalTitle,
@@ -19,6 +20,7 @@ import Helpers from '../../../Helpers';
 function ConnectionModal({
   connection,
   handleActiveConnectionChange,
+  isNew,
   isOpen,
   onDeleteClick,
   onSubmitClick,
@@ -40,7 +42,7 @@ function ConnectionModal({
     <div>
       <CModal centered size="lg" show={isOpen} onClose={toggle}>
         <CModalHeader>
-          <CModalTitle>{connection.name}</CModalTitle>
+          <CModalTitle>{isNew ? "New Connection" : connection.name}</CModalTitle>
         </CModalHeader>
 
         <CForm className="form-horizontal" onSubmit={handleSubmit}>
@@ -60,6 +62,29 @@ function ConnectionModal({
                 />
               </CCol>
             </CFormGroup>
+
+            {
+              isNew &&
+              <CFormGroup row>
+                <CCol md="4" className="text-right">
+                  <CLabel htmlFor="connectionProvider">Provider</CLabel>
+                </CCol>
+                <CCol xs="12" md="8">
+                  <CSelect
+                    custom
+                    name="provider"
+                    id="connectionProvider"
+                    value={connection.provider}
+                    onChange={e => handleActiveConnectionChange('provider', e.target.value)}
+                    required
+                  >
+                    <option value="">Please select</option>
+                    <option value="sonarr">Sonarr</option>
+                    <option value="transcoderr">Transcoderr</option>
+                  </CSelect>
+                </CCol>
+              </CFormGroup>
+            }
 
             <CFormGroup row>
               <CCol md="4" className="text-right">
@@ -93,6 +118,25 @@ function ConnectionModal({
               </CCol>
             </CFormGroup>
 
+            {
+              isNew &&
+              <CFormGroup row>
+                <CCol md="4" className="text-right">
+                  <CLabel htmlFor="connectionAPIKey">API Key</CLabel>
+                </CCol>
+                <CCol xs="12" md="8">
+                  <CInput
+                    type="password"
+                    name="api_key"
+                    id="connectionAPIKey"
+                    value={connection.api_key}
+                    onChange={e => handleActiveConnectionChange('api_key', e.target.value)}
+                    required
+                  />
+                </CCol>
+              </CFormGroup>
+            }
+
             <CFormGroup row>
               <CCol md="4" className="text-right">
                 <CLabel htmlFor="connectionSSL">Use SSL</CLabel>
@@ -106,7 +150,7 @@ function ConnectionModal({
                     onChange={toggleSSL}
                   />
                   <CLabel variant="checkbox" className="form-check-label">
-                    Connect to {Helpers.humanize(connection.provider)} over HTTPS instead of HTTP
+                    Connect to {Helpers.humanize(connection.provider || "provider")} over HTTPS instead of HTTP
                   </CLabel>
                 </CFormGroup>
               </CCol>
@@ -114,7 +158,10 @@ function ConnectionModal({
           </CModalBody>
 
           <CModalFooter>
+          {
+            !isNew &&
             <CButton color="danger" className="mr-auto" onClick={onDeleteClick}>Delete</CButton>
+          }
             <CButton color="secondary">Test</CButton>
             <CButton color="secondary" onClick={toggle}>Cancel</CButton>
             <CButton color="primary" type="submit">Save</CButton>

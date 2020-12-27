@@ -11,19 +11,24 @@ import ConnectionWidget from '../components/ConnectionWidget';
 import Client from '../../Client';
 import Helpers from '../../Helpers';
 
+const defaultConnectionParameters = { name: "", provider: "", host: "", port: 443, api_key: "", ssl: true };
+
 class ConnectContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      activeConnection: null,
+      activeConnection: defaultConnectionParameters,
       connections: [],
-      isConnectionModalOpen: false
+      isConnectionModalOpen: false,
+      isNewConnection: false
     };
 
     this.handleConnectionClick = this.handleConnectionClick.bind(this);
     this.handleConnectionModalToggle = this.handleConnectionModalToggle.bind(this);
+    this.handleNewConnectionClick = this.handleNewConnectionClick.bind(this);
     this.handleActiveConnectionChange = this.handleActiveConnectionChange.bind(this);
+    this.handleCreateConnectionClick = this.handleCreateConnectionClick.bind(this);
     this.handleUpdateConnectionClick = this.handleUpdateConnectionClick.bind(this);
     this.handleDeleteConnectionClick = this.handleDeleteConnectionClick.bind(this);
   };
@@ -37,7 +42,19 @@ class ConnectContainer extends Component {
   handleConnectionClick(connection) {
     Client.getConnection(connection)
       .then(response => response.data.data)
-      .then(c => this.setState({ activeConnection: c, isConnectionModalOpen: true }));
+      .then(connection => this.setState({
+        activeConnection: connection,
+        isConnectionModalOpen: true,
+        isNewConnection: false
+      }));
+  }
+
+  handleNewConnectionClick() {
+    this.setState({
+      activeConnection: defaultConnectionParameters,
+      isConnectionModalOpen: true,
+      isNewConnection: true
+    })
   }
 
   handleConnectionModalToggle() {
@@ -52,6 +69,18 @@ class ConnectContainer extends Component {
     ));
   }
 
+  handleCreateConnectionClick() {
+    Client.createConnection(this.state.activeConnection)
+      .then(response => {
+        this.setState({activeConnection: defaultConnectionParameters, isConnectionModalOpen: false})
+        this.componentDidMount();
+        console.log("CreateConnection - Successful", response)
+      })
+      .catch(error => {
+        console.log("CreateConnection - Error", error)
+      });
+  }
+
   handleUpdateConnectionClick() {
     Client.updateConnection(this.state.activeConnection)
       .then(response => console.log(response))
@@ -59,16 +88,14 @@ class ConnectContainer extends Component {
 
   handleDeleteConnectionClick() {
     Client.deleteConnection(this.state.activeConnection)
-      .then(response => response.status)
-      .then(status => {
-        if(status === 200) {
-          this.setState({activeConnection: null, isConnectionModalOpen: false})
-          this.componentDidMount();
-          console.log("DeleteConnection", "successful")
-        } else {
-          console.log("DeleteConnection", "error")
-        }
+      .then(response => {
+        this.setState({activeConnection: defaultConnectionParameters, isConnectionModalOpen: false})
+        this.componentDidMount();
+        console.log("DeleteConnection - Successful", response)
       })
+      .catch(error => {
+        console.log("DeleteConnection - Error", error)
+      });
   }
 
   connections() {
@@ -95,21 +122,21 @@ class ConnectContainer extends Component {
             <CCol xs="12" sm="6" lg="3">
               <ConnectionWidget
                 text="New"
-                icon={<i className="fas fa-plus card-icon"/>} />
+                icon={<i className="fas fa-plus card-icon"/>}
+                onConnectionClick={() => {this.handleNewConnectionClick()}}
+              />
             </CCol>
           </CRow>
         </CContainer>
-        {
-          this.state.activeConnection &&
           <ConnectionModal
             connection={this.state.activeConnection}
+            isNew={this.state.isNewConnection}
             isOpen={this.state.isConnectionModalOpen}
             toggle={this.handleConnectionModalToggle}
             handleActiveConnectionChange={this.handleActiveConnectionChange}
-            onSubmitClick={this.handleUpdateConnectionClick}
+            onSubmitClick={this.state.isNewConnection ? this.handleCreateConnectionClick : this.handleUpdateConnectionClick}
             onDeleteClick={this.handleDeleteConnectionClick}
           />
-        }
       </main>
     )
   }

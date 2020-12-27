@@ -20,7 +20,7 @@ module API
           if connection.save
             render json: API::ConnectionSerializer.render(connection), status: :created
           else
-            render json: { message: @connection.errors.full_messages }, status: :unprocessable_entity
+            render json: { message: connection.errors.full_messages }, status: :unprocessable_entity
           end
         end
 
