@@ -1,2 +1,14 @@
 @import 'fontawesome/variables_override';
+@import 'coreui/variables_override';
 @import 'libs';
+
+.card{
+  .card-body{
+    .card-icon{
+      text-align: center;
+      font-size: 36px;
+      width: 36px;
+      height: 36px;
+    }
+  }
+}
