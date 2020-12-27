@@ -5,6 +5,7 @@ ruby "2.7.2"
 
 gem "blueprinter", "~> 0.25.0"
 gem "bootsnap", ">= 1.4.2", require: false
+gem "faraday"
 gem "jbuilder", "~> 2.7"
 gem "pagy", "~> 3.7"
 gem "puma", "~> 4.1"
