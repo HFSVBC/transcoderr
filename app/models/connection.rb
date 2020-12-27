@@ -6,5 +6,4 @@ class Connection < ApplicationRecord
   validates :host, presence: true
   validates :port, presence: true
   validates :api_key, presence: true
-  validates :ssl, presence: true
 end
