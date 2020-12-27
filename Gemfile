@@ -24,8 +24,10 @@ group :development, :test do
 end
 
 group :development do
+  gem "debase", "~> 0.2.4.1"
   gem "listen", "~> 3.2"
   gem "pry", "~> 0.13.1"
+  gem "ruby-debug-ide", "~> 0.7.2"
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "web-console", ">= 3.3.0"
