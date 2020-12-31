@@ -11,6 +11,18 @@ function createConnection(connection) {
   });
 }
 
+function testConnection(connection) {
+  return axios.post('/api/v1/settings/connections/test', {
+    id: connection.id,
+    name: connection.name,
+    provider: connection.provider,
+    host: connection.host,
+    port: connection.port,
+    api_key: connection.api_key,
+    ssl: connection.ssl
+  });
+}
+
 function deleteConnection(connection) {
   const URL = `/api/v1/settings/connections/${connection.id}`;
 
@@ -34,11 +46,9 @@ function updateConnection(connection) {
 
   return axios.patch(URL, {
     name: connection.name,
-    provider: connection.provider,
     host: connection.host,
     port: connection.port,
-    api_key: connection.api_key,
-    ssl: connection.ssl ? 1 : 0
+    ssl: connection.ssl
   });
 }
 
@@ -47,6 +57,7 @@ const Client = {
   deleteConnection,
   getConnections,
   getConnection,
+  testConnection,
   updateConnection
 };
 

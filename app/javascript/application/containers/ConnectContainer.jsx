@@ -29,6 +29,7 @@ class ConnectContainer extends Component {
     this.handleNewConnectionClick = this.handleNewConnectionClick.bind(this);
     this.handleActiveConnectionChange = this.handleActiveConnectionChange.bind(this);
     this.handleCreateConnectionClick = this.handleCreateConnectionClick.bind(this);
+    this.handleTestConnectionClick = this.handleTestConnectionClick.bind(this);
     this.handleUpdateConnectionClick = this.handleUpdateConnectionClick.bind(this);
     this.handleDeleteConnectionClick = this.handleDeleteConnectionClick.bind(this);
   };
@@ -81,9 +82,26 @@ class ConnectContainer extends Component {
       });
   }
 
+  handleTestConnectionClick() {
+    Client.testConnection(this.state.activeConnection)
+      .then(response => {
+        console.log("TestConnection - Successful", response)
+      })
+      .catch(error => {
+        console.log("TestConnection - Error", error)
+      });
+  }
+
   handleUpdateConnectionClick() {
     Client.updateConnection(this.state.activeConnection)
-      .then(response => console.log(response))
+      .then(response => {
+        this.setState({activeConnection: defaultConnectionParameters, isConnectionModalOpen: false})
+        this.componentDidMount();
+        console.log("UpdateConnection - Successful", response)
+      })
+      .catch(error => {
+        console.log("UpdateConnection - Error", error)
+      });
   }
 
   handleDeleteConnectionClick() {
@@ -135,6 +153,7 @@ class ConnectContainer extends Component {
             toggle={this.handleConnectionModalToggle}
             handleActiveConnectionChange={this.handleActiveConnectionChange}
             onSubmitClick={this.state.isNewConnection ? this.handleCreateConnectionClick : this.handleUpdateConnectionClick}
+            onTestClick={this.handleTestConnectionClick}
             onDeleteClick={this.handleDeleteConnectionClick}
           />
       </main>

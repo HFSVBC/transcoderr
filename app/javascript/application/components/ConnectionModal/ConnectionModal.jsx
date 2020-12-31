@@ -24,6 +24,7 @@ function ConnectionModal({
   isOpen,
   onDeleteClick,
   onSubmitClick,
+  onTestClick,
   toggle
 }) {
   let ssl = connection.ssl;
@@ -79,8 +80,8 @@ function ConnectionModal({
                     required
                   >
                     <option value="">Please select</option>
+                    <option value="radarr">Radarr</option>
                     <option value="sonarr">Sonarr</option>
-                    <option value="transcoderr">Transcoderr</option>
                   </CSelect>
                 </CCol>
               </CFormGroup>
@@ -162,7 +163,7 @@ function ConnectionModal({
             !isNew &&
             <CButton color="danger" className="mr-auto" onClick={onDeleteClick}>Delete</CButton>
           }
-            <CButton color="secondary">Test</CButton>
+            <CButton color="secondary" onClick={onTestClick}>Test</CButton>
             <CButton color="secondary" onClick={toggle}>Cancel</CButton>
             <CButton color="primary" type="submit">Save</CButton>
           </CModalFooter>

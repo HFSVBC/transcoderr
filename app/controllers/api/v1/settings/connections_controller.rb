@@ -42,6 +42,17 @@ module API
           end
         end
 
+        def test
+          connection = Connection.find_by(id: params[:id]) || Connection.new(connection_params)
+
+          service = CheckConnectionConnectivity.new(connection: connection)
+          if service.call
+            render json: { message: "Connection successfully tested." }, status: :ok
+          else
+            render json: { message: "Not able to test connection" }, status: :unprocessable_entity
+          end
+        end
+
         private
 
         def set_connection
