@@ -1,7 +1,6 @@
 import React from 'react';
 import { CWidgetIcon } from "@coreui/react";
 
-
 function ConnectionWidget({
   text,
   icon,

@@ -7,6 +7,7 @@ import {
 
 import ConnectionModal from '../components/ConnectionModal';
 import ConnectionWidget from '../components/ConnectionWidget';
+import Toaster from '../components/Toaster';
 
 import Client from '../../Client';
 import Helpers from '../../Helpers';
@@ -20,6 +21,7 @@ class ConnectContainer extends Component {
     this.state = {
       activeConnection: defaultConnectionParameters,
       connections: [],
+      toasters: [],
       isConnectionModalOpen: false,
       isNewConnection: false
     };
@@ -34,10 +36,14 @@ class ConnectContainer extends Component {
     this.handleDeleteConnectionClick = this.handleDeleteConnectionClick.bind(this);
   };
 
-  componentDidMount(){
+  componentDidMount() {
     Client.getConnections()
       .then(response => response.data.data)
       .then(connections => this.setState({ connections: connections }))
+  }
+
+  addToast(title, message) {
+    this.setState({ toasters: [...this.state.toasters, { title: title, message: message }] });
   }
 
   handleConnectionClick(connection) {
@@ -71,48 +77,52 @@ class ConnectContainer extends Component {
   }
 
   handleCreateConnectionClick() {
+    const toasterTitle = "Connection Create - " + this.state.activeConnection.name;
     Client.createConnection(this.state.activeConnection)
       .then(response => {
         this.setState({activeConnection: defaultConnectionParameters, isConnectionModalOpen: false})
         this.componentDidMount();
-        console.log("CreateConnection - Successful", response)
+        this.addToast(toasterTitle, "Connection successfully created");
       })
       .catch(error => {
-        console.log("CreateConnection - Error", error)
+        this.addToast(toasterTitle, error.response.data.message || error.response.statusText);
       });
   }
 
   handleTestConnectionClick() {
+    const toasterTitle = "Connection Test - " + this.state.activeConnection.name;
     Client.testConnection(this.state.activeConnection)
       .then(response => {
-        console.log("TestConnection - Successful", response)
+        this.addToast(toasterTitle, response.data.message);
       })
       .catch(error => {
-        console.log("TestConnection - Error", error)
+        this.addToast(toasterTitle, error.response.data.message || error.response.statusText);
       });
   }
 
   handleUpdateConnectionClick() {
+    const toasterTitle = "Connection Update - " + this.state.activeConnection.name;
     Client.updateConnection(this.state.activeConnection)
       .then(response => {
         this.setState({activeConnection: defaultConnectionParameters, isConnectionModalOpen: false})
         this.componentDidMount();
-        console.log("UpdateConnection - Successful", response)
+        this.addToast(toasterTitle, "Connection successfully updated");
       })
       .catch(error => {
-        console.log("UpdateConnection - Error", error)
+        this.addToast(toasterTitle, error.response.data.message || error.response.statusText);
       });
   }
 
   handleDeleteConnectionClick() {
+    const toasterTitle = "Connection Delete - " + this.state.activeConnection.name;
     Client.deleteConnection(this.state.activeConnection)
       .then(response => {
         this.setState({activeConnection: defaultConnectionParameters, isConnectionModalOpen: false})
         this.componentDidMount();
-        console.log("DeleteConnection - Successful", response)
+        this.addToast(toasterTitle, response.data.message);
       })
       .catch(error => {
-        console.log("DeleteConnection - Error", error)
+        this.addToast(toasterTitle, error.response.data.message || error.response.statusText);
       });
   }
 
@@ -126,6 +136,18 @@ class ConnectContainer extends Component {
             onConnectionClick={() => {this.handleConnectionClick(connection)}}
           />
         </CCol>
+      )
+    });
+  }
+
+  toasters() {
+    return this.state.toasters.map((toast, key) => {
+      return(
+        <Toaster
+          key={key}
+          title={toast.title}
+          message={toast.message}
+        />
       )
     });
   }
@@ -146,16 +168,19 @@ class ConnectContainer extends Component {
             </CCol>
           </CRow>
         </CContainer>
-          <ConnectionModal
-            connection={this.state.activeConnection}
-            isNew={this.state.isNewConnection}
-            isOpen={this.state.isConnectionModalOpen}
-            toggle={this.handleConnectionModalToggle}
-            handleActiveConnectionChange={this.handleActiveConnectionChange}
-            onSubmitClick={this.state.isNewConnection ? this.handleCreateConnectionClick : this.handleUpdateConnectionClick}
-            onTestClick={this.handleTestConnectionClick}
-            onDeleteClick={this.handleDeleteConnectionClick}
-          />
+
+        <ConnectionModal
+          connection={this.state.activeConnection}
+          isNew={this.state.isNewConnection}
+          isOpen={this.state.isConnectionModalOpen}
+          toggle={this.handleConnectionModalToggle}
+          handleActiveConnectionChange={this.handleActiveConnectionChange}
+          onSubmitClick={this.state.isNewConnection ? this.handleCreateConnectionClick : this.handleUpdateConnectionClick}
+          onTestClick={this.handleTestConnectionClick}
+          onDeleteClick={this.handleDeleteConnectionClick}
+        />
+
+        {this.toasters()}
       </main>
     )
   }
