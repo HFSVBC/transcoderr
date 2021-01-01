@@ -12,11 +12,11 @@ services:
         - RUN_MIGRATIONS=false
       target: builder
     command: bundle exec rails server -b 0.0.0 -p 3000
-    hostname: transcorr-development-app
     stdin_open: true
     tty: true
     environment:
       - DOCKER_SERVICE=app
+      - REDIS_URL=redis://redis:6379
       - WEBPACKER_DEV_SERVER_HOST=webpacker
     env_file:
       - ./.env.local
@@ -28,18 +28,33 @@ services:
       - public_folder:/app/public
     depends_on:
       - webpacker
+      - redis
+  worker:
+    <<: *app_base
+    command: bundle exec sidekiq
+    environment:
+      - DOCKER_SERVICE=worker
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - ./.env.local
+    ports: []
+    depends_on:
+      - redis
   webpacker:
     <<: *app_base
     command: bin/webpack-dev-server
-    hostname: transcorr-development-webpack
     environment:
       - DOCKER_SERVICE=webpack
-      - RACK_ENV=development
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
     ports:
       - 3035:3035
     depends_on: []
+  redis:
+    image: redis:6-alpine
+    volumes:
+      - redis_data:/data
 
 volumes:
-  node_modules_folder:
-  public_folder:
+  node_modules_folder: {}
+  public_folder: {}
+  redis_data: {}
