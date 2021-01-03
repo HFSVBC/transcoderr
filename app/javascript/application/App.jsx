@@ -4,9 +4,10 @@ import { Route, Switch } from 'react-router-dom';
 const Sidebar = React.lazy(() => import('./components/Sidebar'));
 const Header = React.lazy(() => import('./components/Header'));
 
-const VideosContainer = React.lazy(() => import('./containers/VideosContainer'));
+const ConnectionsContainer = React.lazy(() => import('./containers/ConnectionsContainer'));
+const ProfilesContainer = React.lazy(() => import('./containers/ProfilesContainer'));
 const SeriesContainer = React.lazy(() => import('./containers/SeriesContainer'));
-const ConnectContainer = React.lazy(() => import('./containers/ConnectContainer'));
+const VideosContainer = React.lazy(() => import('./containers/VideosContainer'));
 
 const loading = (
   <div className="pt-3 text-center">
@@ -25,7 +26,8 @@ function App() {
             <Switch>
               <Route path="/videos" name="Videos" render={props => <VideosContainer {...props}/>} />
               <Route path="/series" name="Series" render={props => <SeriesContainer {...props}/>} />
-              <Route path="/settings/connect" name="Connect" render={props => <ConnectContainer {...props}/>} />
+              <Route path="/settings/profiles" name="Connect" render={props => <ProfilesContainer {...props}/>} />
+              <Route path="/settings/connect" name="Connect" render={props => <ConnectionsContainer {...props}/>} />
             </Switch>
           </div>
         </div>

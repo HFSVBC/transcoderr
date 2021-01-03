@@ -1,10 +1,10 @@
 import React from 'react';
 import { CWidgetIcon } from "@coreui/react";
 
-function ConnectionWidget({
+function Widget({
   text,
   icon,
-  onConnectionClick
+  onClick
 }) {
   const style = { cursor: "pointer" };
 
@@ -13,7 +13,7 @@ function ConnectionWidget({
       text={text}
       color="secondary"
       iconPadding={false}
-      onClick={onConnectionClick}
+      onClick={onClick}
       style={style}
     >
       {icon}
@@ -21,4 +21,4 @@ function ConnectionWidget({
   );
 }
 
-export default ConnectionWidget;
+export default Widget;

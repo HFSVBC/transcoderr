@@ -6,15 +6,15 @@ import {
 } from "@coreui/react";
 
 import ConnectionModal from '../components/ConnectionModal';
-import ConnectionWidget from '../components/ConnectionWidget';
 import Toaster from '../components/Toaster';
+import Widget from '../components/Widget';
 
 import Client from '../../Client';
 import Helpers from '../../Helpers';
 
 const defaultConnectionParameters = { name: "", provider: "", host: "", port: 443, api_key: "", ssl: true };
 
-class ConnectContainer extends Component {
+class ConnectionsContainer extends Component {
   constructor(props) {
     super(props);
 
@@ -130,10 +130,10 @@ class ConnectContainer extends Component {
     return this.state.connections.map((connection) => {
       return(
         <CCol key={connection.id} xs="12" sm="6" lg="3">
-          <ConnectionWidget
+          <Widget
             text={connection.name}
             icon={Helpers.connectionLogo(connection.provider)}
-            onConnectionClick={() => {this.handleConnectionClick(connection)}}
+            onClick={() => {this.handleConnectionClick(connection)}}
           />
         </CCol>
       )
@@ -160,10 +160,10 @@ class ConnectContainer extends Component {
             {this.connections()}
 
             <CCol xs="12" sm="6" lg="3">
-              <ConnectionWidget
+              <Widget
                 text="New"
                 icon={<i className="fas fa-plus card-icon"/>}
-                onConnectionClick={() => {this.handleNewConnectionClick()}}
+                onClick={() => {this.handleNewConnectionClick()}}
               />
             </CCol>
           </CRow>
@@ -186,4 +186,4 @@ class ConnectContainer extends Component {
   }
 }
 
-export default ConnectContainer;
+export default ConnectionsContainer;

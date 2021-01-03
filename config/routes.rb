@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :settings do
         resources :connections
+        resources :profiles
 
         post "connections/test" => "connections#test", :as => "test_connection"
       end

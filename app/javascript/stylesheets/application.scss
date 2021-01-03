@@ -1,5 +1,6 @@
-@import 'fontawesome/variables_override';
 @import 'coreui/variables_override';
+@import 'fontawesome/variables_override';
+@import 'jsoneditor/variables_override';
 @import 'libs';
 
 .card{
@@ -11,4 +12,9 @@
       height: 36px;
     }
   }
+}
+
+.jsoneditor-react-container {
+  width: 100%;
+  height: 100%;
 }

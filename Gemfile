@@ -14,6 +14,7 @@ gem "sass-rails", ">= 6"
 gem "sidekiq", "~> 6.1.2"
 gem "sidekiq-scheduler", "~> 3.0.1"
 gem "sqlite3", "~> 1.4"
+gem "streamio-ffmpeg", "~> 3.0.2"
 gem "turbolinks", "~> 5"
 gem "webpacker", "~> 4.0"
 
