@@ -1,0 +1,66 @@
+version: "3.7"
+services:
+  app: &app_base
+    image: transcorr
+    build:
+      context: .
+      args:
+        - EXTRA_PACKAGES=less
+        - FREEZE_BUNDLE=false
+        - RACK_ENV=development
+        - RUN_ASSETS_PRECOMPILE=false
+        - RUN_MIGRATIONS=false
+      target: builder
+    command: bundle exec rails server -b 0.0.0 -p 3000
+    stdin_open: true
+    tty: true
+    environment:
+      - DOCKER_SERVICE=app
+      - REDIS_URL=redis://redis:6379
+      - WEBPACKER_DEV_SERVER_HOST=webpacker
+    env_file:
+      - ./.env.local
+    ports:
+      - ${PORT:-3000}:3000
+    volumes:
+      - .:/app
+      - node_modules_folder:/app/node_modules
+      - public_folder:/app/public
+      - /mnt/media/TVShows:/tv
+      - /mnt/media/TVShowsMine:/tv-mine
+      - /mnt/media/Movies:/movies
+      - /mnt/media/MoviesMine:/movies-mine
+    devices:
+      - /dev/dri:/dev/dri
+    depends_on:
+      - webpacker
+      - redis
+  worker:
+    <<: *app_base
+    command: bundle exec sidekiq
+    environment:
+      - DOCKER_SERVICE=worker
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - ./.env.local
+    ports: []
+    depends_on:
+      - redis
+  webpacker:
+    <<: *app_base
+    command: bin/webpack-dev-server
+    environment:
+      - DOCKER_SERVICE=webpack
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+    ports:
+      - 3035:3035
+    depends_on: []
+  redis:
+    image: redis:6-alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  node_modules_folder: {}
+  public_folder: {}
+  redis_data: {}
