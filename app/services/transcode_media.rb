@@ -8,6 +8,6 @@ class TranscodeMedia
 
   def call
     movie = FFMPEG::Movie.new(@media)
-    movie.transcode("/media/test.mp4", @profile.config) { |progress| puts progress }
+    movie.transcode("/tv/test/test.mp4", @profile.config) { |progress| puts progress }
   end
 end
