@@ -36,6 +36,18 @@ function getConnections() {
   return axios.get(URL);
 }
 
+function getMovies(page=1) {
+  const URL = '/api/v1/movies'
+
+  return axios.get(URL, {params: {page: page}})
+}
+
+function getMovie(movie_id) {
+  const URL = `/api/v1/movies/${movie_id}`
+
+  return axios.get(URL);
+}
+
 function getProfiles() {
   const URL = '/api/v1/settings/profiles';
 
@@ -92,6 +104,8 @@ const Client = {
   deleteConnection,
   deleteProfile,
   getConnections,
+  getMovies,
+  getMovie,
   getProfiles,
   getConnection,
   getProfile,

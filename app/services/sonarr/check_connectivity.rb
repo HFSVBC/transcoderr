@@ -1,5 +1,4 @@
 require "faraday/error"
-require "sonarr/client"
 
 module Sonarr
   class CheckConnectivity

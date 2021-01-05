@@ -6,10 +6,10 @@ import {
 } from "@coreui/react";
 
 import ProfileModal from "../components/ProfileModal";
+import Toaster from "../components/Toaster";
 import Widget from "../components/Widget";
 
 import Client from '../../Client';
-import Toaster from "../components/Toaster";
 
 const defaultProfileParameters = { name: "", config: {} };
 

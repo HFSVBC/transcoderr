@@ -26,6 +26,10 @@ services:
       - .:/app
       - node_modules_folder:/app/node_modules
       - public_folder:/app/public
+      - /Volumes/media/TVShows:/tv
+      - /Volumes/media/TVShowsMine:/tv-mine
+      - /Volumes/media/Movies:/movies
+      - /Volumes/media/MoviesMine:/movies-mine
     depends_on:
       - webpacker
       - redis

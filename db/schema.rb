@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_01_173628) do
+ActiveRecord::Schema.define(version: 2021_01_03_181749) do
 
   create_table "connections", force: :cascade do |t|
     t.string "name", null: false
@@ -25,6 +25,18 @@ ActiveRecord::Schema.define(version: 2021_01_01_173628) do
     t.index ["provider"], name: "index_connections_on_provider"
   end
 
+  create_table "movies", force: :cascade do |t|
+    t.integer "radarr_id"
+    t.string "name", null: false
+    t.string "file_location", null: false
+    t.integer "profile_id", null: false
+    t.json "metadata", null: false
+    t.string "poster"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["radarr_id"], name: "index_movies_on_radarr_id", unique: true
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.string "name", null: false
     t.json "config", null: false
@@ -33,4 +45,5 @@ ActiveRecord::Schema.define(version: 2021_01_01_173628) do
     t.index ["name"], name: "index_profiles_on_name", unique: true
   end
 
+  add_foreign_key "movies", "profiles"
 end

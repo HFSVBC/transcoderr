@@ -8,6 +8,7 @@ const ConnectionsContainer = React.lazy(() => import('./containers/ConnectionsCo
 const ProfilesContainer = React.lazy(() => import('./containers/ProfilesContainer'));
 const SeriesContainer = React.lazy(() => import('./containers/SeriesContainer'));
 const VideosContainer = React.lazy(() => import('./containers/VideosContainer'));
+const VideoContainer = React.lazy(() => import('./containers/VideoContainer'));
 
 const loading = (
   <div className="pt-3 text-center">
@@ -24,10 +25,11 @@ function App() {
           <Header/>
           <div className="c-body">
             <Switch>
-              <Route path="/videos" name="Videos" render={props => <VideosContainer {...props}/>} />
-              <Route path="/series" name="Series" render={props => <SeriesContainer {...props}/>} />
-              <Route path="/settings/profiles" name="Connect" render={props => <ProfilesContainer {...props}/>} />
-              <Route path="/settings/connect" name="Connect" render={props => <ConnectionsContainer {...props}/>} />
+              <Route exact path="/videos" name="Videos" render={props => <VideosContainer {...props}/>} />
+              <Route exact path="/videos/:id" name="Videos" render={props => <VideoContainer {...props} id={props.match.params.id}/>} />
+              <Route exact path="/series" name="Series" render={props => <SeriesContainer {...props}/>} />
+              <Route exact path="/settings/profiles" name="Connect" render={props => <ProfilesContainer {...props}/>} />
+              <Route exact path="/settings/connect" name="Connect" render={props => <ConnectionsContainer {...props}/>} />
             </Switch>
           </div>
         </div>

@@ -1,23 +1,23 @@
-require "faraday/error"
-
 module Radarr
-  class CheckConnectivity
+  class GetMovie
     def initialize(params)
+      @movie = params.fetch(:movie)
       @connection = params.fetch(:connection)
     end
 
     def call
-      return unless @connection.radarr?
-
-      provider_status.present?
+      radarr_movie = client.movie(@movie.radarr_id)
+      Radarr::Movie.new(
+        overview: radarr_movie["overview"],
+        fanart: fanart(radarr_movie["images"]),
+      )
     end
 
     private
 
-    def provider_status
-      client.system_status()
-    rescue Faraday::Error
-      {}
+    def fanart(images)
+      image = images.find { |image| image["coverType"] == "fanart" }
+      image&.[]("remoteUrl")
     end
 
     def client
