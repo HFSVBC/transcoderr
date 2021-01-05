@@ -1,5 +1,6 @@
 require "sidekiq/web"
 require "sidekiq-scheduler/web"
+require "sidekiq-status/web"
 
 Rails.application.routes.draw do
   mount Sidekiq::Web, at: "/sidekiq", as: :sidekiq
@@ -7,7 +8,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :movies
-      
+
       namespace :settings do
         resources :connections
         resources :profiles
