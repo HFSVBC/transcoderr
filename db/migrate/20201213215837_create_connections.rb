@@ -12,6 +12,6 @@ class CreateConnections < ActiveRecord::Migration[6.0]
     end
 
     add_index :connections, :name, unique: true
-    add_index :connections, :provider
+    add_index :connections, :provider, unique: true
   end
 end

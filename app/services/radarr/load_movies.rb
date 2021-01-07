@@ -1,5 +1,3 @@
-require "streamio-ffmpeg"
-
 module Radarr
   class LoadMovies
     def initialize(params)
@@ -10,7 +8,8 @@ module Radarr
       return unless @connection.radarr?
 
       client.movies.each do |media|
-        sync_movie(media)
+        movie = sync_movie(media)
+        update_metadata(movie)
       end
     end
 
@@ -23,20 +22,17 @@ module Radarr
       movie.name = media["title"]
       movie.file_location = media["movieFile"]["path"]
       movie.profile = profile
-      movie.metadata = metadata(media["movieFile"]["path"])
       movie.poster = poster(media["images"])
       movie.save!
+
+      movie
     end
 
-    def metadata(media_path)
-      data = FFMPEG::Movie.new(media_path)
+    def update_metadata(media)
+      return unless media.present?
 
-      {
-        video_codec: data.video_codec,
-        audio_codec: data.audio_codec,
-        resolution: data.resolution,
-        size: data.size
-      }
+      service = UpdateMediaMetadata.new(media: media)
+      service.call
     end
 
     def poster(images)

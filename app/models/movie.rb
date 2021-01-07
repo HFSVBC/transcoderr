@@ -1,4 +1,6 @@
 class Movie < ApplicationRecord
+  include Trackable
+
   belongs_to :profile
 
   validates :name, presence: true
@@ -20,7 +22,7 @@ class Movie < ApplicationRecord
 
   def radarr_movie
     @radarr_movie ||= begin
-      service = Radarr::GetMovie.new(connection: Connection.radarr.first, movie: self)
+      service = Radarr::GetMovie.new(connection: Connection.radarr, movie: self)
       service.call
     end
   end

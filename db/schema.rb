@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_03_181749) do
+ActiveRecord::Schema.define(version: 2021_01_06_230740) do
+
+  create_table "activities", force: :cascade do |t|
+    t.integer "trackable_id", null: false
+    t.string "trackable_type", null: false
+    t.string "action", null: false
+    t.datetime "finished_at"
+    t.json "metadata", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["trackable_type", "trackable_id", "action"], name: "index_activities_on_trackable_type_and_trackable_id_and_action"
+    t.index ["trackable_type", "trackable_id"], name: "index_activities_on_trackable_type_and_trackable_id"
+  end
 
   create_table "connections", force: :cascade do |t|
     t.string "name", null: false
@@ -22,7 +34,7 @@ ActiveRecord::Schema.define(version: 2021_01_03_181749) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_connections_on_name", unique: true
-    t.index ["provider"], name: "index_connections_on_provider"
+    t.index ["provider"], name: "index_connections_on_provider", unique: true
   end
 
   create_table "movies", force: :cascade do |t|
@@ -30,10 +42,11 @@ ActiveRecord::Schema.define(version: 2021_01_03_181749) do
     t.string "name", null: false
     t.string "file_location", null: false
     t.integer "profile_id", null: false
-    t.json "metadata", null: false
+    t.json "metadata", default: "\"{}\"", null: false
     t.string "poster"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_movies_on_name"
     t.index ["radarr_id"], name: "index_movies_on_radarr_id", unique: true
   end
 

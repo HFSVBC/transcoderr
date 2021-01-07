@@ -5,7 +5,7 @@ class CreateMovies < ActiveRecord::Migration[6.1]
       t.string :name, null: false
       t.string :file_location, null: false
       t.integer :profile_id, null: false
-      t.json :metadata, null: false
+      t.json :metadata, null: false, default: {}
       t.string :poster
 
       t.timestamps

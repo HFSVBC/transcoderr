@@ -60,14 +60,18 @@ ADD . ./
 #
 FROM ruby:2.7.2-alpine
 
+ARG PGID=1000
+ARG PUID=1000
 ARG RACK_ENV
 ARG RAILS_LOG_TO_STDOUT=true
 ARG RUN_ASSETS_PRECOMPILE=true
 ARG RUN_MIGRATIONS=true
 
 ENV INSTALL_PATH /app
+ENV PGID ${PGID}
+ENV PUID ${PUID}
 ENV RACK_ENV ${RACK_ENV}
-ENV RAILS_LOG_TO_STDOUT=${RAILS_LOG_TO_STDOUT}
+ENV RAILS_LOG_TO_STDOUT ${RAILS_LOG_TO_STDOUT}
 ENV RUN_ASSETS_PRECOMPILE ${RUN_ASSETS_PRECOMPILE}
 ENV RUN_MIGRATIONS ${RUN_MIGRATIONS}
 
@@ -85,8 +89,8 @@ RUN apk add --update --no-cache \
   tzdata \
   yarn
 
-RUN addgroup -g 1000 -S transcoderr \
-&& adduser -u 1000 -S transcoderr -G transcoderr
+RUN addgroup -g $PUID -S transcoderr \
+&& adduser -u $PGID -S transcoderr -G transcoderr
 USER transcoderr
 
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
