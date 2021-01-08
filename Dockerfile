@@ -66,6 +66,7 @@ ARG RAILS_SERVE_STATIC_FILES=true
 ARG RUN_ASSETS_PRECOMPILE=true
 ARG RUN_MIGRATIONS=true
 
+ENV DATABASE_PATH /config/${RACK_ENV}.sqlite3
 ENV INSTALL_PATH /app
 ENV PGID 1000
 ENV PUID 1000
@@ -84,15 +85,16 @@ RUN ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
 RUN apk add --update --no-cache \
   ffmpeg \
   file \
-  git \
   less \
   sqlite-dev \
   tzdata \
   yarn
 
-COPY ./docker/cont-init.d /etc/cont-init.d
+RUN mkdir /config
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder $INSTALL_PATH $INSTALL_PATH
+
+RUN rm -rf $INSTALL_PATH/spec $INSTALL_PATH/.git
 
 WORKDIR $INSTALL_PATH
 
