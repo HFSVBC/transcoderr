@@ -8,6 +8,7 @@ class TranscodeMedia
 
   def call
     create_activity
+    create_temporary_folder
     transcode { |progress| yield(progress) }
     update_activity
     remove_old_media
@@ -19,6 +20,11 @@ class TranscodeMedia
 
   def create_activity
     @activity = @media.create_activity(:transcode, old_media: @media.metadata, job_id: @job_id)
+  end
+
+  def create_temporary_folder
+    dir = File.dirname(tmp_file_location)
+    Dir.mkdir(dir) unless File.exists?(dir)
   end
 
   def transcode
@@ -38,6 +44,7 @@ class TranscodeMedia
 
   def move_new_media
     File.rename(tmp_file_location, @media.file_location)
+    File.delete(File.dirname(tmp_file_location))
   end
 
   def update_metadata
