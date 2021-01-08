@@ -3,10 +3,13 @@ import {
   CContainer,
   CRow,
   CCol,
+  CButton,
   CCard,
   CCardHeader,
   CCardBody
 } from "@coreui/react";
+
+import Toaster from "../components/Toaster";
 
 import Client from '../../Client';
 import Helpers from '../../Helpers';
@@ -17,8 +20,17 @@ class VideoContainer extends Component {
 
     this.state = {
       movie: null,
+      toasters: []
     }
+
+    this.handleTranscodeClick = this.handleTranscodeClick.bind(this);
   };
+
+  addToast(title, message) {
+    this.setState(prevState => (
+      { toasters: [...prevState.toasters, { title: title, message: message }] }
+    ));
+  }
 
   componentDidMount() {
     Client.getMovie(this.props.id)
@@ -26,6 +38,29 @@ class VideoContainer extends Component {
       .then(movie => {
         this.setState({movie: movie})
       });
+  }
+
+  handleTranscodeClick() {
+    const toasterTitle = "Movie Transcode - " + this.state.movie.title;
+    Client.transcodeMovie(this.state.movie)
+      .then(response => {
+        this.addToast(toasterTitle, response.data.message);
+      })
+      .catch(error => {
+        this.addToast(toasterTitle, error.response.data.message || error.response.statusText);
+      });
+  }
+
+  toasters() {
+    return this.state.toasters.map((toast, key) => {
+      return(
+        <Toaster
+          key={key}
+          title={toast.title}
+          message={toast.message}
+        />
+      )
+    });
   }
 
   render() {
@@ -36,13 +71,21 @@ class VideoContainer extends Component {
         {movie !== null &&
           <main className="c-main">
             <CContainer fluid>
-              <header className="position-relative no-frame" style={{zIndex: 0}}>
+              <nav className="position-relative no-frame" style={{zIndex: 0}}>
+                <div className="position-absolute bg-gray-600 h-100 w-100" style={{zIndex: -1}}/>
+                <div className="px-3 py-2">
+                  <CButton block color="primary w-auto" title="transcode" onClick={() => {this.handleTranscodeClick()}}>
+                    <i className="fas fa-microchip"></i>
+                  </CButton>
+                </div>
+              </nav>
+              <header className="position-relative no-frame-x" style={{zIndex: 0}}>
                 <div className="background-cover position-absolute h-100 w-100" style={{backgroundImage: `url(${movie.fanart})`, zIndex: -1}}>
                   <div className="background-overlay"/>
                 </div>
                 <div className="p-3 text-light">
                   <CRow>
-                    <CCol xs="12" md="2">
+                    <CCol xs="12" md="3" lg="2">
                       <img src={movie.poster} className="card-img-top" alt={movie.name} />
                     </CCol>
                     <CCol>
@@ -70,6 +113,8 @@ class VideoContainer extends Component {
                 <h3 className="pt-4">History</h3>
               </div>
             </CContainer>
+
+            {this.toasters()}
           </main>
         }
       </div>

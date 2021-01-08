@@ -32,8 +32,16 @@
   width: 100%;
 }
 
-.no-frame{
+.no-frame {
   margin: -2rem -30px 0 -30px;
+}
+
+.no-frame-y{
+  margin: -2rem 0 0 0px;
+}
+
+.no-frame-x{
+  margin: 0 -30px 0 -30px;
 }
 
 .text-small{

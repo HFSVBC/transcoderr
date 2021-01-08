@@ -78,6 +78,12 @@ function testConnection(connection) {
   });
 }
 
+function transcodeMovie(movie) {
+  const URL = `/api/v1/movies/${movie.id}/transcode`;
+
+  return axios.patch(URL);
+}
+
 function updateConnection(connection) {
   const URL = `/api/v1/settings/connections/${connection.id}`;
 
@@ -110,6 +116,7 @@ const Client = {
   getConnection,
   getProfile,
   testConnection,
+  transcodeMovie,
   updateConnection,
   updateProfile
 };
