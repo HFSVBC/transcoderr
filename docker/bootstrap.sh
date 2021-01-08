@@ -21,4 +21,4 @@ if [ "${RUN_ASSETS_PRECOMPILE}" = "true" ]; then
 fi
 
 echo "[BOOSTRAP] Removing node_modules..."
-rm -rf $INSTALL_PATH/node_modules
+rm -rf $INSTALL_PATH/node_modules || 0
