@@ -8,4 +8,6 @@ $INSTALL_PATH/docker/bootstrap.sh
 $INSTALL_PATH/docker/adduser.sh
 
 # Execute command as user
-exec /bin/su -c "$@" transcoderr
+exec /bin/su transcoderr -s /bin/sh <<EOF
+"$@"
+EOF
