@@ -1,4 +1,4 @@
-require "file_utils"
+require "fileutils"
 require "streamio-ffmpeg"
 
 class TranscodeMedia
