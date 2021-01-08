@@ -17,7 +17,7 @@ fi
 if [ "${RUN_ASSETS_PRECOMPILE}" = "true" ]; then
   echo "[BOOSTRAP] Precompiling assets..."
   yarn install --check-files
-  bundle exec rake  assets:precompile
+  bundle exec rake assets:precompile
 fi
 
 echo "[BOOSTRAP] Removing node_modules..."
