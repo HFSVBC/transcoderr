@@ -1,3 +1,4 @@
+require "file_utils"
 require "streamio-ffmpeg"
 
 class TranscodeMedia
@@ -44,7 +45,7 @@ class TranscodeMedia
 
   def move_new_media
     File.rename(tmp_file_location, @media.file_location)
-    File.delete(File.dirname(tmp_file_location))
+    FileUtils.remove_dir(File.dirname(tmp_file_location))
   end
 
   def update_metadata
