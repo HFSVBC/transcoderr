@@ -91,7 +91,7 @@ RUN apk add --update --no-cache \
   tzdata \
   yarn
 
-RUN mkdir /config
+RUN mkdir -p /config $INSTALL_PATH/tmp/pids
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder $INSTALL_PATH $INSTALL_PATH
 
