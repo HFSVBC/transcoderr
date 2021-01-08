@@ -5,6 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Profile.find_or_create_by(name: "h265") do |profile|
-  profile.config = { video_codec: "libx265" }
-end
+profile = Profile.find_or_initialize_by(name: "h265")
+profile.config = { video_codec: "libx265", custom: %w(-map 0) }
+profile.save!
