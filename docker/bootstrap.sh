@@ -2,7 +2,7 @@
 set -e
 
 # Check if database exists, if not create database
-if [ ! -f $INSTALL_PATH/db/$RAILS_ENV.sqlite3 ]; then
+if [ ! -f $DATABASE_PATH ]; then
   echo "[BOOSTRAP] Creating database..."
   bundle exec rake db:create
 fi

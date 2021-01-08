@@ -87,6 +87,7 @@ RUN apk add --update --no-cache \
   file \
   less \
   sqlite-dev \
+  su-exec \
   tzdata \
   yarn
 
