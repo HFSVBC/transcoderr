@@ -60,8 +60,6 @@ ADD . ./
 #
 FROM ruby:2.7.2-alpine
 
-ARG PGID=1000
-ARG PUID=1000
 ARG RACK_ENV=production
 ARG RAILS_LOG_TO_STDOUT=true
 ARG RAILS_SERVE_STATIC_FILES=true
@@ -69,8 +67,8 @@ ARG RUN_ASSETS_PRECOMPILE=true
 ARG RUN_MIGRATIONS=true
 
 ENV INSTALL_PATH /app
-ENV PGID ${PGID}
-ENV PUID ${PUID}
+ENV PGID 1000
+ENV PUID 1000
 ENV RACK_ENV ${RACK_ENV}
 ENV RAILS_ENV ${RACK_ENV}
 ENV RAILS_LOG_TO_STDOUT ${RAILS_LOG_TO_STDOUT}
@@ -92,12 +90,9 @@ RUN apk add --update --no-cache \
   tzdata \
   yarn
 
-RUN addgroup -g $PUID -S transcoderr \
-&& adduser -u $PGID -S transcoderr -G transcoderr
-USER transcoderr
-
+COPY ./docker/cont-init.d /etc/cont-init.d
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
-COPY --from=builder --chown=transcoderr:transcoderr $INSTALL_PATH $INSTALL_PATH
+COPY --from=builder $INSTALL_PATH $INSTALL_PATH
 
 WORKDIR $INSTALL_PATH
 
