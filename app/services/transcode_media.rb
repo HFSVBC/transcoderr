@@ -30,7 +30,11 @@ class TranscodeMedia
 
   def transcode
     movie = FFMPEG::Movie.new(@media.file_location)
-    movie.transcode(tmp_file_location, @media.profile.config) do |progress|
+    movie.transcode(
+      tmp_file_location,
+      @media.profile.config,
+      @media.profile.transcoder_config,
+    ) do |progress|
       yield(progress)
     end
   end

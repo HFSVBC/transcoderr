@@ -65,6 +65,18 @@ function ProfileModal({
                 />
               </CCol>
             </CFormGroup>
+
+            <CFormGroup row>
+              <CCol md="4" className="text-right">
+                <CLabel htmlFor="profileConfig">Transcoder Config</CLabel>
+              </CCol>
+              <CCol xs="12" md="8">
+                <JsonEditor
+                  value={profile.transcoder_config}
+                  onChange={e => handleActiveProfileChange('transcoder_config', e)}
+                />
+              </CCol>
+            </CFormGroup>
           </CModalBody>
 
           <CModalFooter>

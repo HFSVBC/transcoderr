@@ -11,7 +11,7 @@ import Widget from "../components/Widget";
 
 import Client from '../../Client';
 
-const defaultProfileParameters = { name: "", config: {} };
+const defaultProfileParameters = { name: "", config: {}, transcoder_config: {} };
 
 class ProfilesContainer extends Component {
   constructor(props) {

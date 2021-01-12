@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_06_230740) do
+ActiveRecord::Schema.define(version: 2021_01_12_152550) do
 
   create_table "activities", force: :cascade do |t|
     t.integer "trackable_id", null: false
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2021_01_06_230740) do
     t.json "config", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.json "transcoder_config", default: {}, null: false
     t.index ["name"], name: "index_profiles_on_name", unique: true
   end
 
