@@ -86,7 +86,7 @@ ENV RUN_MIGRATIONS ${RUN_MIGRATIONS}
 
 COPY --from=ffmpeg-builder /usr/lib/libva* /usr/lib/
 COPY --from=ffmpeg-builder /opt/intel/mediasdk/ /opt/intel/mediasdk/
-COPY --from=ffmpeg-builder /usr/local/bin/ff* /usr/local/bin/
+COPY --from=ffmpeg-builder /usr/local/ /usr/local/
 COPY --from=node-builder /usr/local/lib/node_modules/ /usr/local/lib/node_modules/
 COPY --from=node-builder /usr/local/bin/node /usr/local/bin/node
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
