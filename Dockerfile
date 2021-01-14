@@ -120,7 +120,7 @@ RUN apk add --update --no-cache \
   x264-dev \
   x265 \
   xvidcore \
-  yarn
+  yarn \
   zlib
 
 RUN mkdir -p /config $INSTALL_PATH/tmp/pids
