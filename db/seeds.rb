@@ -14,3 +14,12 @@ profile.config = {
 }
 profile.transcoder_config = { input_options: {} }
 profile.save!
+
+profile = Profile.find_or_initialize_by(name: "H265 Intel Quick Sync")
+profile.config = {
+  video_codec: "hevc_qsv",
+  "x264_preset": "slower",
+  custom: %w(-map 0 -global_quality 22 -look_ahead 1),
+}
+profile.transcoder_config = { input_options: { hwaccel: "qsv" } }
+profile.save!
