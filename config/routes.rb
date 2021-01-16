@@ -11,6 +11,10 @@ Rails.application.routes.draw do
         member do
           patch :transcode
         end
+
+        scope module: :movies do
+          resources :activities
+        end
       end
 
       namespace :settings do
