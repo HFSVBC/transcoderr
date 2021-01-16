@@ -21,18 +21,18 @@ import Helpers from '../../Helpers';
 
 const movieHistoryColumnDefinitions = [
   { headerName: 'Action', field: 'action', width: 130 },
-  { headerName: 'Finished At', field: 'finished_at', type: 'dateColumn' },
+  { headerName: 'Finished At', field: 'finished_at' },
   {
     headerName: "Previous Media",
     children: [
       { headerName: 'Video Codec', field: 'metadata.old_media.video_codec', width: 150 },
       { headerName: 'Audio Codec', field: 'metadata.old_media.audio_codec', width: 150 },
       { headerName: 'Resolution', field: 'metadata.old_media.resolution', width: 150 },
-      { headerName: 'Size', field: 'metadata.old_media.size', width: 150 },
+      { headerName: 'Size', field: 'metadata.old_media.size', valueFormatter: bytesToSizeFormatter, width: 100 },
     ]
   },
   { headerName: 'Job ID', field: 'metadata.job_id', width: 250 },
-  { headerName: 'Created At', field: 'created_at', type: 'dateColumn' },
+  { headerName: 'Created At', field: 'created_at' },
 ];
 
 const movieHistoryDefaultColDef = {
@@ -42,26 +42,8 @@ const movieHistoryDefaultColDef = {
   width: 200
 }
 
-const columnTypes = {
-  dateColumn: {
-    filter: 'agDateColumnFilter',
-    filterParams: {
-      comparator: function (filterLocalDateAtMidnight, cellValue) {
-        var dateParts = cellValue.split('/');
-        var day = Number(dateParts[0]);
-        var month = Number(dateParts[1]) - 1;
-        var year = Number(dateParts[2]);
-        var cellDate = new Date(year, month, day);
-        if (cellDate < filterLocalDateAtMidnight) {
-          return -1;
-        } else if (cellDate > filterLocalDateAtMidnight) {
-          return 1;
-        } else {
-          return 0;
-        }
-      },
-    },
-  }
+function bytesToSizeFormatter(params) {
+  return Helpers.bytesToSize(params.value);
 }
 
 class VideoContainer extends Component {
@@ -167,19 +149,6 @@ class VideoContainer extends Component {
       });
   }
 
-  onHistoryGridReady(params) {
-    console.log(params)
-    // params.api.sizeColumnsToFit();
-    // params.columnApi.autoSizeColumns();
-    //
-    // var allColumnIds = [];
-    // params.gridOptions.columnApi.getAllColumns().forEach(function (column) {
-    //   allColumnIds.push(column.colId);
-    // });
-    //
-    // params.gridOptions.columnApi.autoSizeColumns(allColumnIds, false);
-  }
-
   toasters() {
     return this.state.toasters.map((toast, key) => {
       return(
@@ -266,8 +235,6 @@ class VideoContainer extends Component {
                             rowData={this.state.movieActivities}
                             columnDefs={movieHistoryColumnDefinitions}
                             defaultColDef={movieHistoryDefaultColDef}
-                            columnTypes={columnTypes}
-                            onGridReady={this.onHistoryGridReady}
                             pagination={true}
                             paginationPageSize={10}
                             suppressHorizontalScroll={false}
