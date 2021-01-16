@@ -1,7 +1,7 @@
 module API
   module V1
     class MoviesController < APIController
-      before_action :set_movie, only: %i[show update transcode]
+      before_action :set_movie, only: %i[show update destroy transcode]
 
       def index
         @pagy, movies = pagy(Movie.all.order(:name))
@@ -18,6 +18,14 @@ module API
 
         if @movie.valid?
           render json: API::MovieSerializer.render(@movie), status: :ok
+        else
+          render json: { message: @movie.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      def destroy
+        if @movie.destroy
+          render json: { message: "Movie successfully destroyed." }, status: :ok
         else
           render json: { message: @movie.errors.full_messages }, status: :unprocessable_entity
         end

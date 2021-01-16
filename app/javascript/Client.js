@@ -25,6 +25,12 @@ function deleteConnection(connection) {
   return axios.delete(URL);
 }
 
+function deleteMovie(movie) {
+  const URL = `/api/v1/movies/${movie.id}`;
+
+  return axios.delete(URL);
+}
+
 function deleteProfile(profile) {
   const URL = `/api/v1/settings/profiles/${profile.id}`;
 
@@ -118,6 +124,7 @@ const Client = {
   createConnection,
   createProfile,
   deleteConnection,
+  deleteMovie,
   deleteProfile,
   getConnections,
   getMovies,

@@ -31,6 +31,7 @@ class VideoContainer extends Component {
     this.handleMovieEditClick = this.handleMovieEditClick.bind(this);
     this.handleMovieChange = this.handleMovieChange.bind(this);
     this.handleUpdateMovieClick = this.handleUpdateMovieClick.bind(this);
+    this.handleDeleteMovieClick = this.handleDeleteMovieClick.bind(this);
     this.handleTranscodeClick = this.handleTranscodeClick.bind(this);
   };
 
@@ -87,6 +88,19 @@ class VideoContainer extends Component {
       });
   }
 
+  handleDeleteMovieClick() {
+    const toasterTitle = "Movie Delete - " + this.state.movie.name;
+    Client.deleteMovie(this.state.movie)
+      .then(response => {
+        this.setState({movie: null, isMovieModalOpen: false})
+        this.addToast(toasterTitle, response.data.message);
+        this.props.history.push("/videos")
+      })
+      .catch(error => {
+        this.addToast(toasterTitle, error.response.data.message || error.response.statusText);
+      });
+  }
+
   handleTranscodeClick() {
     const toasterTitle = "Movie Transcode - " + this.state.movie.title;
     Client.transcodeMovie(this.state.movie)
@@ -120,11 +134,14 @@ class VideoContainer extends Component {
             <CContainer fluid>
               <nav className="position-relative no-frame" style={{zIndex: 0}}>
                 <div className="position-absolute bg-gray-600 h-100 w-100" style={{zIndex: -1}}/>
-                <div className="px-3 py-2">
+                <div className="px-3 py-2 d-flex bd-highlight">
                   <CButton className="m-1" color="primary" title="edit" onClick={() => {this.handleMovieEditClick()}}>
                     <i className="fas fa-pencil-alt"></i>
                   </CButton>
-                  <CButton className="m-1" color="primary" title="transcode" onClick={() => {this.handleTranscodeClick()}}>
+                  <CButton className="m-1" color="danger" title="transcode" onClick={() => {this.handleDeleteMovieClick()}}>
+                    <i className="fas fa-trash-alt"></i>
+                  </CButton>
+                  <CButton className="m-1 ml-auto" color="primary" title="transcode" onClick={() => {this.handleTranscodeClick()}}>
                     <i className="fas fa-microchip"></i>
                   </CButton>
                 </div>
