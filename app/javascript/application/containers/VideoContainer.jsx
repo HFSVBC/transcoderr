@@ -9,6 +9,7 @@ import {
   CCardBody
 } from "@coreui/react";
 
+import MovieModal from "../components/MovieModal";
 import Toaster from "../components/Toaster";
 
 import Client from '../../Client';
@@ -19,12 +20,27 @@ class VideoContainer extends Component {
     super(props);
 
     this.state = {
+      isMovieNew: false,
+      isMovieModalOpen: false,
       movie: null,
+      profiles: [],
       toasters: []
     }
 
+    this.handleMovieModalToggle = this.handleMovieModalToggle.bind(this);
+    this.handleMovieEditClick = this.handleMovieEditClick.bind(this);
+    this.handleMovieChange = this.handleMovieChange.bind(this);
+    this.handleUpdateMovieClick = this.handleUpdateMovieClick.bind(this);
     this.handleTranscodeClick = this.handleTranscodeClick.bind(this);
   };
+
+  componentDidMount() {
+    Client.getMovie(this.props.id)
+      .then(response => response.data.data)
+      .then(movie => {
+        this.setState({movie: movie})
+      });
+  }
 
   addToast(title, message) {
     this.setState(prevState => (
@@ -32,11 +48,42 @@ class VideoContainer extends Component {
     ));
   }
 
-  componentDidMount() {
-    Client.getMovie(this.props.id)
+  handleMovieModalToggle() {
+    this.setState({
+      isMovieModalOpen: !this.state.isMovieModalOpen,
+    });
+  }
+
+  handleMovieEditClick() {
+    Client.getProfiles()
       .then(response => response.data.data)
-      .then(movie => {
-        this.setState({movie: movie})
+      .then(profiles => {
+        this.setState({
+          profiles: profiles.map(profile => {
+            return({ value: profile.id, label: profile.name })
+          }),
+          isMovieModalOpen: true
+        })
+      })
+  }
+
+  handleMovieChange(movieProperty, newValue) {
+    console.log(newValue)
+    this.setState(prevState => (
+      { movie: { ...prevState.movie, [movieProperty]: newValue } }
+    ));
+  }
+
+  handleUpdateMovieClick() {
+    const toasterTitle = "Movie Update - " + this.state.movie.name;
+    Client.updateMovie(this.state.movie)
+      .then(response => {
+        this.setState({movie: response.data.data, isMovieModalOpen: false})
+        this.componentDidMount();
+        this.addToast(toasterTitle, "Movie successfully updated");
+      })
+      .catch(error => {
+        this.addToast(toasterTitle, error.response.data.message || error.response.statusText);
       });
   }
 
@@ -74,7 +121,10 @@ class VideoContainer extends Component {
               <nav className="position-relative no-frame" style={{zIndex: 0}}>
                 <div className="position-absolute bg-gray-600 h-100 w-100" style={{zIndex: -1}}/>
                 <div className="px-3 py-2">
-                  <CButton block color="primary w-auto" title="transcode" onClick={() => {this.handleTranscodeClick()}}>
+                  <CButton className="m-1" color="primary" title="edit" onClick={() => {this.handleMovieEditClick()}}>
+                    <i className="fas fa-pencil-alt"></i>
+                  </CButton>
+                  <CButton className="m-1" color="primary" title="transcode" onClick={() => {this.handleTranscodeClick()}}>
                     <i className="fas fa-microchip"></i>
                   </CButton>
                 </div>
@@ -113,6 +163,16 @@ class VideoContainer extends Component {
                 <h3 className="pt-4">History</h3>
               </div>
             </CContainer>
+
+            <MovieModal
+              isNew={this.state.isMovieNew}
+              isOpen={this.state.isMovieModalOpen}
+              movie={this.state.movie}
+              profiles={this.state.profiles}
+              toggle={this.handleMovieModalToggle}
+              handleActiveMovieChange={this.handleMovieChange}
+              onSubmitClick={this.handleUpdateMovieClick}
+            />
 
             {this.toasters()}
           </main>

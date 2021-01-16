@@ -96,6 +96,14 @@ function updateConnection(connection) {
   });
 }
 
+function updateMovie(movie) {
+  const URL = `/api/v1/movies/${movie.id}`;
+
+  return axios.patch(URL, {
+    profile_id: movie.profile_id
+  });
+}
+
 function updateProfile(profile) {
   const URL = `/api/v1/settings/profiles/${profile.id}`;
 
@@ -120,6 +128,7 @@ const Client = {
   testConnection,
   transcodeMovie,
   updateConnection,
+  updateMovie,
   updateProfile
 };
 
