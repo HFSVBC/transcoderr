@@ -6,6 +6,8 @@ class Movie < ApplicationRecord
   validates :name, presence: true
   validates :file_location, presence: true
 
+  scope :h264, -> { where("json_extract(movies.metadata, '$.video_codec') like 'h264'") }
+
   def metadata
     read_attribute(:metadata).symbolize_keys
   end

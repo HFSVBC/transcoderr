@@ -2,3 +2,7 @@ load_movies:
   cron: "0 3 * * *"
   class: LoadMoviesJob
   description: "Load Movies from Radarr"
+auto_transcode_movies:
+  cron: "0 4 * * *"
+  class: AutoTranscodeMoviesJob
+  description: "Auto transcode non h264 movies"
