@@ -51,6 +51,7 @@ module API
         def profile_params
           params.require(:profile).permit(
             :name,
+            :default,
             config: {},
             transcoder_config: {},
           )

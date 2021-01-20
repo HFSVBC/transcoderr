@@ -14,6 +14,7 @@ function createConnection(connection) {
 function createProfile(profile) {
   return axios.post('/api/v1/settings/profiles', {
     name: profile.name,
+    default: profile.default,
     config: profile.config,
     transcoder_config: profile.transcoder_config
   });
@@ -121,6 +122,7 @@ function updateProfile(profile) {
 
   return axios.patch(URL, {
     name: profile.name,
+    default: profile.default,
     config: profile.config,
     transcoder_config: profile.transcoder_config
   });

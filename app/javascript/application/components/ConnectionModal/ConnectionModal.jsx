@@ -147,7 +147,7 @@ function ConnectionModal({
                   <CInputCheckbox
                     name="ssl"
                     id="connectionSSL"
-                    defaultChecked={ssl}
+                    checked={ssl}
                     onChange={toggleSSL}
                   />
                   <CLabel variant="checkbox" className="form-check-label">

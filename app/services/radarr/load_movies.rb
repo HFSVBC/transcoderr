@@ -43,7 +43,7 @@ module Radarr
     end
 
     def profile
-      @profile ||= Profile.find_by(name: "h265")
+      @profile ||= Profile.find_by(default: true) || Profile.find_by(name: "h265")
     end
 
     def client

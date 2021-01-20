@@ -10,6 +10,7 @@ import {
   CCol,
   CLabel,
   CModalTitle,
+  CInputCheckbox,
   CButton,
 } from "@coreui/react";
 
@@ -24,9 +25,16 @@ function ProfileModal({
   onDeleteClick,
   onSubmitClick
 }) {
+  let defaultProfile = profile.default;
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmitClick();
+  };
+
+  const toggleDefaultProfile = () => {
+    defaultProfile = !defaultProfile;
+    handleActiveProfileChange('default', defaultProfile);
   };
 
   return (
@@ -51,6 +59,22 @@ function ProfileModal({
                   onChange={e => handleActiveProfileChange('name', e.target.value)}
                   required
                 />
+              </CCol>
+            </CFormGroup>
+
+            <CFormGroup row>
+              <CCol md="4" className="text-right">
+                <CLabel htmlFor="profileName">Default</CLabel>
+              </CCol>
+              <CCol xs="12" md="8">
+                <CFormGroup variant="checkbox" className="checkbox">
+                  <CInputCheckbox
+                    name="default"
+                    id="profileName"
+                    checked={defaultProfile}
+                    onChange={toggleDefaultProfile}
+                  />
+                </CFormGroup>
               </CCol>
             </CFormGroup>
 
