@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   CHeader,
+  CSubheader,
   CHeaderNav,
   CHeaderNavItem,
   CDropdown,
@@ -16,7 +17,7 @@ class Header extends Component {
 
   render() {
     return (
-      <CHeader>
+      <CHeader withSubheader>
         <CHeaderNav className="px-3 ml-auto">
           <CHeaderNavItem className="px-3" >
           </CHeaderNavItem>
@@ -38,6 +39,12 @@ class Header extends Component {
             </CDropdownMenu>
           </CDropdown>
         </CHeaderNav>
+        {this.props.children &&
+          <CSubheader className="px-3 justify-content-end">
+            {this.props.children}
+          </CSubheader>
+        }
+
       </CHeader>
     );
   }

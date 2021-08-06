@@ -6,6 +6,7 @@ import {
 } from "@coreui/react";
 
 import ConnectionModal from '../components/ConnectionModal';
+import Header from "../components/Header";
 import Toaster from '../components/Toaster';
 import Widget from '../components/Widget';
 
@@ -154,34 +155,39 @@ class ConnectionsContainer extends Component {
 
   render() {
     return(
-      <main className="c-main">
-        <CContainer fluid>
-          <CRow>
-            {this.connections()}
+      <>
+        <Header />
+        <div className="c-body">
+          <main className="c-main">
+            <CContainer fluid>
+              <CRow>
+                {this.connections()}
 
-            <CCol xs="12" sm="6" lg="3">
-              <Widget
-                text="New"
-                icon={<i className="fas fa-plus card-icon"/>}
-                onClick={() => {this.handleNewConnectionClick()}}
-              />
-            </CCol>
-          </CRow>
-        </CContainer>
+                <CCol xs="12" sm="6" lg="3">
+                  <Widget
+                    text="New"
+                    icon={<i className="fas fa-plus card-icon"/>}
+                    onClick={() => {this.handleNewConnectionClick()}}
+                  />
+                </CCol>
+              </CRow>
+            </CContainer>
 
-        <ConnectionModal
-          connection={this.state.activeConnection}
-          isNew={this.state.isNewConnection}
-          isOpen={this.state.isConnectionModalOpen}
-          toggle={this.handleConnectionModalToggle}
-          handleActiveConnectionChange={this.handleActiveConnectionChange}
-          onSubmitClick={this.state.isNewConnection ? this.handleCreateConnectionClick : this.handleUpdateConnectionClick}
-          onTestClick={this.handleTestConnectionClick}
-          onDeleteClick={this.handleDeleteConnectionClick}
-        />
+            <ConnectionModal
+              connection={this.state.activeConnection}
+              isNew={this.state.isNewConnection}
+              isOpen={this.state.isConnectionModalOpen}
+              toggle={this.handleConnectionModalToggle}
+              handleActiveConnectionChange={this.handleActiveConnectionChange}
+              onSubmitClick={this.state.isNewConnection ? this.handleCreateConnectionClick : this.handleUpdateConnectionClick}
+              onTestClick={this.handleTestConnectionClick}
+              onDeleteClick={this.handleDeleteConnectionClick}
+            />
 
-        {this.toasters()}
-      </main>
+            {this.toasters()}
+          </main>
+        </div>
+      </>
     )
   }
 }

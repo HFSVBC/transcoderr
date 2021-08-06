@@ -13,6 +13,7 @@ import {
   CNavLink
 } from "@coreui/react";
 
+import Header from "../components/Header";
 import MovieModal from "../components/MovieModal";
 import Toaster from "../components/Toaster";
 
@@ -165,103 +166,108 @@ class VideoContainer extends Component {
     let movie = this.state.movie;
 
     return (
-        <main className="c-main d-flex">
-          {movie !== null &&
-            <>
-              <CContainer fluid className="align-self-stretch d-flex flex-column">
-                <nav className="position-relative no-frame" style={{zIndex: 0}}>
-                  <div className="position-absolute bg-gray-600 h-100 w-100" style={{zIndex: -1}}/>
-                  <div className="px-3 py-2 d-flex bd-highlight">
-                    <CButton className="m-1" color="primary" title="transcode" onClick={() => {this.handleTranscodeClick()}}>
-                      <i className="fas fa-microchip"></i>
-                    </CButton>
-                    <span className="m-1 border border-top-0 border-bottom-0"/>
-                    <CButton className="m-1" color="primary" title="edit" onClick={() => {this.handleMovieEditClick()}}>
-                      <i className="fas fa-pencil-alt"></i>
-                    </CButton>
-                    <CButton className="m-1" color="danger" title="transcode" onClick={() => {this.handleDeleteMovieClick()}}>
-                      <i className="fas fa-trash-alt"></i>
-                    </CButton>
-                  </div>
-                </nav>
-                <header className="position-relative no-frame-x" style={{zIndex: 0}}>
-                  <div className="background-cover position-absolute h-100 w-100" style={{backgroundImage: `url(${movie.fanart})`, zIndex: -1}}>
-                    <div className="background-overlay"/>
-                  </div>
-                  <div className="p-3 text-light">
-                    <CRow>
-                      <CCol xs="12" md="3" lg="2">
-                        <img src={movie.poster} className="card-img-top" alt={movie.name} />
-                      </CCol>
-                      <CCol>
-                        <h1>{movie.name}</h1>
-                        <div className="d-flex flex-row">
-                          <div>
-                            <label className="text-secondary text-small">Video Codec</label>
-                            <p>{movie.metadata.video_codec}</p>
+      <>
+        <Header />
+        <div className="c-body">
+          <main className="c-main d-flex">
+            {movie !== null &&
+              <>
+                <CContainer fluid className="align-self-stretch d-flex flex-column">
+                  <nav className="position-relative no-frame" style={{zIndex: 0}}>
+                    <div className="position-absolute bg-gray-600 h-100 w-100" style={{zIndex: -1}}/>
+                    <div className="px-3 py-2 d-flex bd-highlight">
+                      <CButton className="m-1" color="primary" title="transcode" onClick={() => {this.handleTranscodeClick()}}>
+                        <i className="fas fa-microchip"></i>
+                      </CButton>
+                      <span className="m-1 border border-top-0 border-bottom-0"/>
+                      <CButton className="m-1" color="primary" title="edit" onClick={() => {this.handleMovieEditClick()}}>
+                        <i className="fas fa-pencil-alt"></i>
+                      </CButton>
+                      <CButton className="m-1" color="danger" title="transcode" onClick={() => {this.handleDeleteMovieClick()}}>
+                        <i className="fas fa-trash-alt"></i>
+                      </CButton>
+                    </div>
+                  </nav>
+                  <header className="position-relative no-frame-x" style={{zIndex: 0}}>
+                    <div className="background-cover position-absolute h-100 w-100" style={{backgroundImage: `url(${movie.fanart})`, zIndex: -1}}>
+                      <div className="background-overlay"/>
+                    </div>
+                    <div className="p-3 text-light">
+                      <CRow>
+                        <CCol xs="12" md="3" lg="2">
+                          <img src={movie.poster} className="card-img-top" alt={movie.name} />
+                        </CCol>
+                        <CCol>
+                          <h1>{movie.name}</h1>
+                          <div className="d-flex flex-row">
+                            <div>
+                              <label className="text-secondary text-small">Video Codec</label>
+                              <p>{movie.metadata.video_codec}</p>
+                            </div>
+                            <div className="mx-2">
+                              <label className="text-secondary text-small">Resolution</label>
+                              <p>{movie.metadata.resolution}</p>
+                            </div>
+                            <div className="mx-2">
+                              <label className="text-secondary text-small">Size</label>
+                              <p>{Helpers.bytesToSize(movie.metadata.size)}</p>
+                            </div>
                           </div>
-                          <div className="mx-2">
-                            <label className="text-secondary text-small">Resolution</label>
-                            <p>{movie.metadata.resolution}</p>
+                          <p>{Helpers.truncateString(movie.overview, 420)}</p>
+                        </CCol>
+                      </CRow>
+                    </div>
+                  </header>
+                  <div className="content mt-3 h-100 d-flex flex-column">
+                    <CTabs activeTab="history">
+                      <CNav variant="pills">
+                        <CNavItem>
+                          <CNavLink data-tab="history">
+                            History
+                          </CNavLink>
+                        </CNavItem>
+                        <CNavItem>
+                          <CNavLink data-tab="files">
+                            Files
+                          </CNavLink>
+                        </CNavItem>
+                      </CNav>
+                      <CTabContent className="d-flex h-100">
+                        <CTabPane data-tab="history" className="flex-fill w-100">
+                          <div className="ag-theme-material my-3 w-100" style={{height: "93%", minHeight: "400px", maxWidth: "100%"}}>
+                            <AgGridReact
+                              rowData={this.state.movieActivities}
+                              columnDefs={movieHistoryColumnDefinitions}
+                              defaultColDef={movieHistoryDefaultColDef}
+                              pagination={true}
+                              paginationPageSize={10}
+                              suppressHorizontalScroll={false}
+                            />
                           </div>
-                          <div className="mx-2">
-                            <label className="text-secondary text-small">Size</label>
-                            <p>{Helpers.bytesToSize(movie.metadata.size)}</p>
-                          </div>
-                        </div>
-                        <p>{Helpers.truncateString(movie.overview, 420)}</p>
-                      </CCol>
-                    </CRow>
+                        </CTabPane>
+                        <CTabPane data-tab="files" className="flex-fill">
+                          <h3 className="pt-4">Files</h3>
+                        </CTabPane>
+                      </CTabContent>
+                    </CTabs>
                   </div>
-                </header>
-                <div className="content mt-3 h-100 d-flex flex-column">
-                  <CTabs activeTab="history">
-                    <CNav variant="pills">
-                      <CNavItem>
-                        <CNavLink data-tab="history">
-                          History
-                        </CNavLink>
-                      </CNavItem>
-                      <CNavItem>
-                        <CNavLink data-tab="files">
-                          Files
-                        </CNavLink>
-                      </CNavItem>
-                    </CNav>
-                    <CTabContent className="d-flex h-100">
-                      <CTabPane data-tab="history" className="flex-fill w-100">
-                        <div className="ag-theme-material my-3 w-100" style={{height: "93%", minHeight: "400px", maxWidth: "100%"}}>
-                          <AgGridReact
-                            rowData={this.state.movieActivities}
-                            columnDefs={movieHistoryColumnDefinitions}
-                            defaultColDef={movieHistoryDefaultColDef}
-                            pagination={true}
-                            paginationPageSize={10}
-                            suppressHorizontalScroll={false}
-                          />
-                        </div>
-                      </CTabPane>
-                      <CTabPane data-tab="files" className="flex-fill">
-                        <h3 className="pt-4">Files</h3>
-                      </CTabPane>
-                    </CTabContent>
-                  </CTabs>
-                </div>
-              </CContainer>
+                </CContainer>
 
-              <MovieModal
-                isNew={this.state.isMovieNew}
-                isOpen={this.state.isMovieModalOpen}
-                movie={movie}
-                profiles={this.state.profiles}
-                toggle={this.handleMovieModalToggle}
-                handleActiveMovieChange={this.handleMovieChange}
-                onSubmitClick={this.handleUpdateMovieClick}
-              />
-            </>
-          }
-          {this.toasters()}
-        </main>
+                <MovieModal
+                  isNew={this.state.isMovieNew}
+                  isOpen={this.state.isMovieModalOpen}
+                  movie={movie}
+                  profiles={this.state.profiles}
+                  toggle={this.handleMovieModalToggle}
+                  handleActiveMovieChange={this.handleMovieChange}
+                  onSubmitClick={this.handleUpdateMovieClick}
+                />
+              </>
+            }
+            {this.toasters()}
+          </main>
+        </div>
+      </>
     )
   }
 }

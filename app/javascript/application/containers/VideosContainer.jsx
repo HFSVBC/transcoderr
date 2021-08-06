@@ -10,6 +10,8 @@ import {
   CCardBody
 } from "@coreui/react";
 
+import Header from "../components/Header";
+
 import Client from '../../Client';
 import Helpers from '../../Helpers';
 
@@ -59,19 +61,24 @@ class VideosContainer extends Component {
 
   render() {
     return(
-      <main className="c-main">
-        <CContainer fluid>
-          <InfiniteScroll
-            pageStart={0}
-            loadMore={this.handleLoadMore}
-            hasMore={this.state.loadMore}
-          >
-            <CRow>
-              {this.movies()}
-            </CRow>
-          </InfiniteScroll>
-        </CContainer>
-      </main>
+      <>
+        <Header />
+        <div className="c-body">
+          <main className="c-main">
+            <CContainer fluid>
+              <InfiniteScroll
+                pageStart={0}
+                loadMore={this.handleLoadMore}
+                hasMore={this.state.loadMore}
+              >
+                <CRow>
+                  {this.movies()}
+                </CRow>
+              </InfiniteScroll>
+            </CContainer>
+          </main>
+        </div>
+      </>
     )
   }
 }

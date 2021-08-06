@@ -1,11 +1,13 @@
 require "sonarr/connection"
 require "sonarr/request"
+require "sonarr/client/series"
 require "sonarr/client/system_status"
 
 module Sonarr
   class Client
     include Sonarr::Connection
     include Sonarr::Request
+    include Sonarr::Client::Series
     include Sonarr::Client::SystemStatus
 
     DEFAULT_PAGE_SIZE = 500

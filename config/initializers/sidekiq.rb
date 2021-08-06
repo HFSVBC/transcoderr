@@ -1,6 +1,8 @@
-require "sidekiq"
-require "sidekiq-scheduler"
-require "sidekiq-status"
+require "sidekiq/web"
+require "sidekiq-scheduler/web"
+require "sidekiq-status/web"
+
+Sidekiq::Web.app_url = "/system/tasks"
 
 Sidekiq.configure_client do |config|
   Sidekiq::Status.configure_client_middleware config, expiration: 1.week

@@ -17,6 +17,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :series do
+        member do
+          patch :transcode
+        end
+      end
+
       namespace :settings do
         resources :connections
         resources :profiles

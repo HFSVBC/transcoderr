@@ -5,6 +5,7 @@ import {
   CRow
 } from "@coreui/react";
 
+import Header from "../components/Header";
 import ProfileModal from "../components/ProfileModal";
 import Toaster from "../components/Toaster";
 import Widget from "../components/Widget";
@@ -143,33 +144,38 @@ class ProfilesContainer extends Component {
 
   render() {
     return(
-      <main className="c-main">
-        <CContainer fluid>
-          <CRow>
-            {this.profiles()}
+      <>
+        <Header />
+        <div className="c-body">
+          <main className="c-main">
+            <CContainer fluid>
+              <CRow>
+                {this.profiles()}
 
-            <CCol xs="12" sm="6" lg="3">
-              <Widget
-                text="New"
-                icon={<i className="fas fa-plus card-icon"/>}
-                onClick={() => {this.handleNewProfileClick()}}
-              />
-            </CCol>
-          </CRow>
-        </CContainer>
+                <CCol xs="12" sm="6" lg="3">
+                  <Widget
+                    text="New"
+                    icon={<i className="fas fa-plus card-icon"/>}
+                    onClick={() => {this.handleNewProfileClick()}}
+                  />
+                </CCol>
+              </CRow>
+            </CContainer>
 
-        <ProfileModal
-          isNew={this.state.isNewProfile}
-          isOpen={this.state.isProfileModalOpen}
-          profile={this.state.activeProfile}
-          toggle={this.handleProfileModalToggle}
-          handleActiveProfileChange={this.handleActiveProfileChange}
-          onSubmitClick={this.state.isNewProfile ? this.handleCreateProfileClick : this.handleUpdateProfileClick}
-          onDeleteClick={this.handleDeleteProfileClick}
-        />
+            <ProfileModal
+              isNew={this.state.isNewProfile}
+              isOpen={this.state.isProfileModalOpen}
+              profile={this.state.activeProfile}
+              toggle={this.handleProfileModalToggle}
+              handleActiveProfileChange={this.handleActiveProfileChange}
+              onSubmitClick={this.state.isNewProfile ? this.handleCreateProfileClick : this.handleUpdateProfileClick}
+              onDeleteClick={this.handleDeleteProfileClick}
+            />
 
-        {this.toasters()}
-      </main>
+            {this.toasters()}
+          </main>
+        </div>
+      </>
     )
   }
 }

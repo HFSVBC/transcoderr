@@ -2,6 +2,10 @@ load_movies:
   cron: "0 3 * * *"
   class: LoadMoviesJob
   description: "Load Movies from Radarr"
+load_series:
+  cron: "0 3 * * *"
+  class: LoadSeriesJob
+  description: "Load Series from Sonarr"
 auto_transcode_movies:
   cron: "0 4 * * *"
   class: AutoTranscodeMoviesJob

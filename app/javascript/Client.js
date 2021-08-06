@@ -62,6 +62,12 @@ function getMovieActivities(movie_id) {
   return axios.get(URL);
 }
 
+function getSeries(page=1) {
+  const URL = '/api/v1/series'
+
+  return axios.get(URL, {params: {page: page}})
+}
+
 function getProfiles() {
   const URL = '/api/v1/settings/profiles';
 
@@ -138,6 +144,7 @@ const Client = {
   getMovies,
   getMovie,
   getMovieActivities,
+  getSeries,
   getProfiles,
   getConnection,
   getProfile,
