@@ -4,7 +4,8 @@ import {
   CSidebarBrand,
   CSidebarNav,
   CSidebarNavItem,
-  CSidebarNavDropdown
+  CSidebarNavDropdown,
+  CSidebarMinimizer
 } from '@coreui/react';
 
 class Sidebar extends Component {
@@ -14,9 +15,13 @@ class Sidebar extends Component {
 
   render() {
     return (
-      <CSidebar>
+      <CSidebar
+        show={this.props.sidebarShow}
+        onShowChange={(val) => this.props.setSidebarShow(val)}
+      >
         <CSidebarBrand className="d-md-down-none" to="/">
-          <h1>Transcoderr</h1>
+          <h1 className="c-sidebar-brand-full">Transcoderr</h1>
+          <h1 className="c-sidebar-brand-minimized">T</h1>
         </CSidebarBrand>
         <CSidebarNav>
           <CSidebarNavItem name="Videos" to="/videos" icon={<i className="fas fa-video c-sidebar-nav-icon"/>}/>
@@ -36,6 +41,8 @@ class Sidebar extends Component {
             <CSidebarNavItem name="Log Files" to="/system/log_files"/>
           </CSidebarNavDropdown>
         </CSidebarNav>
+
+        <CSidebarMinimizer className="c-d-md-down-none"/>
       </CSidebar>
     );
   }

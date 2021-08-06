@@ -16,7 +16,7 @@ class SeriesContainer extends Component {
   render() {
     return(
       <>
-        <Header>
+        <Header sidebarShow={this.props.sidebarShow} setSidebarShow={this.props.setSidebarShow}>
           <div className="d-md-down-none mfe-2 c-subheader-nav">
             <CLink className="c-subheader-nav-link"href="/sidekiq">
               Sidekiq

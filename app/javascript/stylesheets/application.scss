@@ -3,6 +3,15 @@
 @import 'jsoneditor/variables_override';
 @import 'libs';
 
+.c-sidebar-brand, .c-header-brand{
+  text-decoration: none!important;
+  h1{
+    font-size: 1.25rem;
+    margin: 0;
+    text-transform: uppercase;
+  }
+}
+
 .card{
   .card-body{
     .card-icon{

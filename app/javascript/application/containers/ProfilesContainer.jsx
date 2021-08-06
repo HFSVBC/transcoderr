@@ -145,7 +145,7 @@ class ProfilesContainer extends Component {
   render() {
     return(
       <>
-        <Header />
+        <Header sidebarShow={this.props.sidebarShow} setSidebarShow={this.props.setSidebarShow}/>
         <div className="c-body">
           <main className="c-main">
             <CContainer fluid>

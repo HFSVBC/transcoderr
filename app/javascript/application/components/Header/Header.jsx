@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {
   CHeader,
+  CToggler,
+  CHeaderBrand,
   CSubheader,
   CHeaderNav,
   CHeaderNavItem,
@@ -13,11 +15,39 @@ import {
 class Header extends Component {
   constructor(props) {
     super(props);
+
+    this.toggleSidebar = this.toggleSidebar.bind(this);
+    this.toggleSidebarMobile = this.toggleSidebarMobile.bind(this);
+  }
+
+  toggleSidebar() {
+    const val = [true, 'responsive'].includes(this.props.sidebarShow) ? false : 'responsive';
+    this.props.setSidebarShow(val);
+  }
+
+  toggleSidebarMobile() {
+    const val = [false, 'responsive'].includes(this.props.sidebarShow) ? true : 'responsive'
+    this.props.setSidebarShow(val);
   }
 
   render() {
     return (
       <CHeader withSubheader>
+        <CToggler
+          inHeader
+          className="ml-md-3 d-lg-none"
+          onClick={this.toggleSidebarMobile}
+        />
+        <CToggler
+          inHeader
+          className="ml-3 d-md-down-none"
+          onClick={this.toggleSidebar}
+        />
+
+        <CHeaderBrand className="mx-auto d-lg-none" to="/">
+          <h1 className="c-sidebar-brand-full">Transcoderr</h1>
+        </CHeaderBrand>
+
         <CHeaderNav className="px-3 ml-auto">
           <CHeaderNavItem className="px-3" >
           </CHeaderNavItem>

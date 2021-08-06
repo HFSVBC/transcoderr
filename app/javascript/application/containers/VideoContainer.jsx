@@ -167,7 +167,7 @@ class VideoContainer extends Component {
 
     return (
       <>
-        <Header />
+        <Header sidebarShow={this.props.sidebarShow} setSidebarShow={this.props.setSidebarShow}/>
         <div className="c-body">
           <main className="c-main d-flex">
             {movie !== null &&
@@ -189,7 +189,7 @@ class VideoContainer extends Component {
                     </div>
                   </nav>
                   <header className="position-relative no-frame-x" style={{zIndex: 0}}>
-                    <div className="background-cover position-absolute h-100 w-100" style={{backgroundImage: `url(${movie.fanart})`, zIndex: -1}}>
+                    <div className="background-cover position-absolute h-100 w-100" style={{backgroundImage: `url(${movie.fanart})`, backgroundPosition: 'center', zIndex: -1}}>
                       <div className="background-overlay"/>
                     </div>
                     <div className="p-3 text-light">

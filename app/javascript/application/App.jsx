@@ -18,18 +18,32 @@ const loading = (
 ); // TODO
 
 function App() {
+  const [sidebarShow, setSidebarShow] = useState('responsive');
+
   return (
     <React.Suspense fallback={loading}>
       <div className="c-app c-default-layout">
-        <Sidebar/>
+        <Sidebar sidebarShow={sidebarShow} setSidebarShow={setSidebarShow}/>
         <div className="c-wrapper">
           <Switch>
-            <Route exact path="/videos" name="Videos" render={props => <VideosContainer {...props}/>} />
-            <Route exact path="/videos/:id" name="Videos" render={props => <VideoContainer {...props} id={props.match.params.id}/>} />
-            <Route exact path="/series" name="Series" render={props => <SeriesContainer {...props}/>} />
-            <Route exact path="/settings/profiles" name="Profiles" render={props => <ProfilesContainer {...props}/>} />
-            <Route exact path="/settings/connect" name="Connect" render={props => <ConnectionsContainer {...props}/>} />
-            <Route exact path="/system/tasks" name="Tasks" render={props => <TasksContainer {...props}/>} />
+            <Route exact path="/videos" name="Videos" render={props =>
+              <VideosContainer {...props} sidebarShow={sidebarShow} setSidebarShow={setSidebarShow}/>
+            } />
+            <Route exact path="/videos/:id" name="Videos" render={props =>
+              <VideoContainer {...props} sidebarShow={sidebarShow} setSidebarShow={setSidebarShow} id={props.match.params.id}/>
+            } />
+            <Route exact path="/series" name="Series" render={props =>
+              <SeriesContainer {...props} sidebarShow={sidebarShow} setSidebarShow={setSidebarShow}/>
+            } />
+            <Route exact path="/settings/profiles" name="Profiles" render={props =>
+              <ProfilesContainer {...props} sidebarShow={sidebarShow} setSidebarShow={setSidebarShow}/>
+            } />
+            <Route exact path="/settings/connect" name="Connect" render={props =>
+              <ConnectionsContainer {...props} sidebarShow={sidebarShow} setSidebarShow={setSidebarShow}/>
+            } />
+            <Route exact path="/system/tasks" name="Tasks" render={props =>
+              <TasksContainer {...props} sidebarShow={sidebarShow} setSidebarShow={setSidebarShow}/>
+            } />
           </Switch>
         </div>
       </div>
