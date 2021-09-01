@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_05_021325) do
+ActiveRecord::Schema.define(version: 2021_08_07_113051) do
 
   create_table "activities", force: :cascade do |t|
     t.integer "trackable_id", null: false
@@ -61,6 +61,18 @@ ActiveRecord::Schema.define(version: 2021_08_05_021325) do
     t.index ["name"], name: "index_profiles_on_name", unique: true
   end
 
+  create_table "serie_episodes", force: :cascade do |t|
+    t.integer "series_id", null: false
+    t.integer "sonarr_id"
+    t.string "name", null: false
+    t.string "file_location", null: false
+    t.json "metadata", default: "\"{}\"", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_serie_episodes_on_name"
+    t.index ["sonarr_id"], name: "index_serie_episodes_on_sonarr_id", unique: true
+  end
+
   create_table "series", force: :cascade do |t|
     t.integer "sonarr_id"
     t.string "name", null: false
@@ -74,5 +86,6 @@ ActiveRecord::Schema.define(version: 2021_08_05_021325) do
   end
 
   add_foreign_key "movies", "profiles"
+  add_foreign_key "serie_episodes", "series"
   add_foreign_key "series", "profiles"
 end

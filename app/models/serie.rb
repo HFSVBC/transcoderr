@@ -1,23 +1,25 @@
 class Serie < ApplicationRecord
   include Trackable
 
+  has_many :serie_episodes
+
   belongs_to :profile
 
   validates :name, presence: true
   validates :file_location, presence: true
 
   def overview
-    sonarr_movie.overview
+    sonarr_serie.overview
   end
 
   def fanart
-    sonarr_movie.fanart
+    sonarr_serie.fanart
   end
 
   private
 
-  def sonarr_movie
-    @sonarr_movie ||= begin
+  def sonarr_serie
+    @sonarr_serie ||= begin
       service = Sonarr::GetSerie.new(connection: Connection.sonarr, serie: self)
       service.call
     end
